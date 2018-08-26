@@ -10,11 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    boolean mSelectedItems[] = {false,false,false};
+    boolean mySelectedItemsReference[] = {false,false,false};
+    String[] mySelectedItemsData = new String[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void click1(View v){
+    public void onClickButtonAlertDialog(View v){
 
-        AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog);
+        //AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog);
+
+
         /*
         * Teste os seguintes temas de AlertDialog
          */
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         //AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Presentation);
         //AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Presentation);
         //AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material);
+        AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_NoActionBar_MinWidth);
 
         alerta.setIcon(R.mipmap.ic_launcher);
 
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         criaalerta.show();
     }
 
-    public void click2(View v){
+    public void onClickButtonListDialog(View v){
 
         AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog);
         alerta.setIcon(R.mipmap.ic_launcher);
@@ -100,21 +104,23 @@ public class MainActivity extends AppCompatActivity {
         criaalerta.show();
     }
 
-    public void click3(View v){
+    public void onClickButtonMultiDialog(View v){
 
 
         AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog);
         alerta.setIcon(R.mipmap.ic_launcher);
         alerta.setTitle("Escolha a cor:");
-        alerta.setMultiChoiceItems(R.array.frutas,mSelectedItems, new DialogInterface.OnMultiChoiceClickListener() {
+        alerta.setMultiChoiceItems(R.array.frutas,mySelectedItemsReference, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int itemid, boolean isChecked) {
                 if (isChecked) {
                     // If the user checked the item, add it to the selected items
-                    mSelectedItems[itemid] = true;
-                } else if (mSelectedItems[itemid]) {
+                    mySelectedItemsReference[itemid] = true;
+                    mySelectedItemsData[itemid] = ""+itemid;
+                } else {
                     // Else, if the item is already in the array, remove it
-                    mSelectedItems[itemid] = false;
+                    mySelectedItemsReference[itemid] = false;
+                    mySelectedItemsData[itemid] = null;
                 }
             }
         });
@@ -122,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         alerta.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MainActivity.this, "Ok", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, Arrays.toString(mySelectedItemsData), Toast.LENGTH_LONG).show();
             }
         });
         alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -136,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         criaalerta.show();
     }
 
-    public void click4 (View v){
+    public void onClickButtonCustomDialog(View v){
 
         AlertDialog.Builder alerta = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog);
 
@@ -165,13 +171,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void click5(View v){
+
+    public void onClickButtonSnack1(View v){
         Snackbar snack = Snackbar.make((View)v.getParent(), R.string.sucesso, Snackbar.LENGTH_LONG);
         snack.show();
     }
 
 
-    public void click6(View v){
+    public void onClickButtonSnack2(View v){
         Snackbar snack = Snackbar.make((View)v.getParent(), R.string.sucesso, Snackbar.LENGTH_LONG)
                 .setAction(R.string.cancelar, snacklistener);
         snack.show();
